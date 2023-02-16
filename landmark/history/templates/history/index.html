@@ -1,0 +1,22 @@
+{% extends 'history/base.html' %}
+{% block content %}
+
+
+<ul>
+    {% for post in posts %}
+        <div class="article-panel">
+        <p>Дата создания: {{post.created_at|date:"d-m-Y H:i:s"}}</p></div>
+        <li>
+
+
+            <h2>{{post.title}}</h2>
+            <p>{{post.description|linebreaks|truncatewords:100}}</p>
+            <div class="fullread">
+            <a class="btn btn-secondary" role="button" href="{{ post.get_absolute_url }}">Читать полностью</a>
+            </div>
+            <br>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
