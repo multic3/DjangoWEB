@@ -1,24 +1,48 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
-from history.models import Movie as M
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView
+
+from history.models import Movie
+from history.forms import *
 
 
-def index(request):
-    posts = M.objects.all()
-    context = {'posts': posts,
-               'title': 'Главная страница'
-    }
-    return render(request, 'history/index.html', context=context)
+class HistoryHome(ListView):
+    model = Movie
+    template_name = 'history/index.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        context['cat_selected'] = 0
+        return context
+
+    def get_queryset(self):
+        return Movie.objects.filter(is_published=True)
 
 
-def about(request):
-    context = {'title': 'О нас',
-    }
-    return render(request, 'history/about.html', context=context)
+class HistoryAbout(ListView):
+    model = Movie
+    template_name = 'history/about.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'О сайте'
+        context['cat_selected'] = 0
+        return context
 
 
-def show_post(request, post_id):
-    return HttpResponse(f'Отображение статьи {post_id}')
+class ShowPost(DetailView):
+    model = Movie
+    template_name = 'history/post.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['post']
+        return context
 
 
 def pageNotFound(request, exception):

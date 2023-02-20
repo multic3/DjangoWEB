@@ -4,18 +4,26 @@ from django.urls import reverse
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    image = models.ImageField(upload_to='images/%Y/%m')
-    video = models.FileField(upload_to='videos//%Y/%m')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
+    location = models.TextField(max_length=255, default=True, verbose_name='Адрес')
+    image = models.ImageField(upload_to='images/%Y/%m',verbose_name='Изображение')
+    video = models.FileField(upload_to='videos//%Y/%m', verbose_name='Видео')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    is_published = models.BooleanField(default=True, verbose_name='Публикация')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post', kwargs={'post_id': self.pk})
+        return reverse('post', kwargs={'post_slug': self.slug})
+
+    class Meta:
+        verbose_name = 'Достопримечательности'
+        verbose_name_plural = 'Достопримечательности'
+        ordering = ['title', 'created_at']
 
 
 class UserProfile(models.Model):
