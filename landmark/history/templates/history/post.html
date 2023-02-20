@@ -1,0 +1,13 @@
+{% extends 'history/base.html' %}
+
+{% block content %}
+
+
+  <h1 class="post-center">{{post.title}}</h1>
+  <div align='center'><video width="1024" height="640" controls>
+    <source src="{{ post.video.url }}" type="video/mp4">
+  </video>
+  </div><br>
+  <p class="post-center">{{post.description|linebreaks}}</p>
+
+{% endblock %}
