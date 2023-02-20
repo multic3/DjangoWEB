@@ -16,7 +16,24 @@
 
 .article-panel
 {
-    background-color: grey;
+    background-color: lightgrey;
     text-align: right;
 }
 
+.img-article-left
+{
+	max-width: 100px;
+	height: 150px;
+}
+
+.about
+{
+	height: auto;
+	font-size: 150%;
+	margin-left: 40px;
+}
+.post-center
+{
+	text-align: center;
+
+}

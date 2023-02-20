@@ -17,7 +17,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from history.views import index, about, pageNotFound
+from history.views import *
 from django.urls import path, include
 
 from landmark import settings
