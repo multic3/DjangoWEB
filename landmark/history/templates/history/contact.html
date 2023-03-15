@@ -1,0 +1,19 @@
+{% extends 'history/base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div style="list-style: none; padding: 0; color: #CC0000">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<p><label style="display: inline-block; min-width: 150px;vertical-align: top" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<div tyle="list-style: none; padding: 0; color: #CC0000">{{ f.errors }}</div>
+{% endfor %}
+
+    <button type="submit">Отправить</button>
+</form>
+
+{% endblock %}

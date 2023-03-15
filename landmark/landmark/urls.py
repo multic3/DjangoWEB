@@ -25,6 +25,7 @@ from landmark import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('history.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
 
 if settings.DEBUG:
