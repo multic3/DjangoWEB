@@ -34,16 +34,47 @@
         <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Поиск</button>
       </form>
-	  <div class="nav-item" style="margin-left:20px; margin-right:5px ">
-         <button type="button" class="btn btn-primary btn-lg pull-right">Войти</button>
-      </div>
-  </div>
+
+      <form action="{% url 'register' %}" style="margin-left:20px; margin-right:5px ">
+        <input class="btn btn-primary btn-lg pull-right" type="submit" value="Регистрация">
+      </form>
+
+      <form action="#" style="margin-right:5px ">
+        <input class="tn btn-dark btn-lg pull-right" type="submit" value="Войти">
+      </form>
 
 </nav>
 </nav>
 
   {% block content %}
   {% endblock %}
+
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Назад</a>
+    </li>
+    {% endif %}
+    {% for p in paginator.page_range %}
+    {% if page_obj.number == p %}
+        <li class="page-item disabled">
+      <a class="page-link"  tabindex="-1" aria-disabled="true">{{ p }}</a>
+    </li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая страница</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
 
 
 </body>
