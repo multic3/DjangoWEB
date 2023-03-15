@@ -1,8 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import logout, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
 
 from history.models import Movie
 from history.forms import *
@@ -60,8 +62,44 @@ class RegisterUser(CreateView):
         context['title'] = 'Регистрация'
         return context
 
-def login(request):
-    HttpResponseNotFound(f"Авторизация")
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class LoginUser(LoginView):
+    form_class = LoginUserForm
+    template_name = 'history/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Авторизация'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
+
+
+class ContactFormView(FormView):
+    form_class = ContactForm
+    template_name = 'history/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Обратная связь'
+        return context
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return redirect('home')
+
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f"<h1>Страница не найдена</h1><p> Ошибка</p>")
