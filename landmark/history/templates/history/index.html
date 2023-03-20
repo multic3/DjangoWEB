@@ -1,17 +1,19 @@
 {% extends 'history/base.html' %}
+{% load static %}
 {% block content %}
 
 
 <ul>
+    {% if request.user.is_authenticated %}
     {% for post in posts %}
-        <li><div class="article-panel">
-        <p>Дата создания: {{post.created_at|date:"d-m-Y H:i:s"}}</p></div>
+        <div class="container" style="overflow:hidden; background-color:#f1f5f9; border: thick double #32a1ce">
+            <div class="article-panel"><p>Дата публикации: {{post.created_at|date:"d-m-Y H:i:s"}}</p></div>
 
-        <h2>{{post.title}}</h2>
 
-        {% if post.image %}
-            <p><img class='img-article-left' style="max-width:300px; height: auto" src="{{ post.image.url}}" alt="{{post.title}}">
-            {{post.description|linebreaks|truncatewords:100}}</p>
+        <h2 align="center">{{post.title}}</h2>
+         {% if post.image %}
+            <img src="{{ post.image.url}}" align="left"  style="max-width: 50%; display: block; border-right:10px solid #f1f5f9; border-bottom:10px solid #f1f5f9"/>
+            {{post.description|linebreaks|truncatewords:100}}
         {% else %}
             <p>{{post.description|linebreaks|truncatewords:100}}</p>
         {% endif %}
@@ -19,9 +21,17 @@
         <div class="fullread">
         <a class="btn btn-secondary" role="button" href="{{ post.get_absolute_url }}">Читать полностью</a>
         </div>
+        </div>
         <br>
-        </li>
+
     {% endfor %}
+    {% else %}
+    <div class="container" align="center" style="overflow:hidden; background-color:#f1f5f9; border: thick double #32a1ce"><img src="{% static 'history/images/logo_orig.png' %}" align="left"  style="max-width: 100%; display: block;"/>Наш сайт - это путеводитель для тех, кто ищет увлекательные истории и красивые места по всему миру. Мы собрали самые замечательные и уникальные достопримечательности, чтобы поделиться с вами удивительными местами и впечатлениями, которые можно испытать во время путешествий. Наши авторы пишут о своих личных опытах и приключениях, чтобы помочь вам расширить кругозор и найти вдохновение для новых приключений.
+<p>Мы создали этот сайт, чтобы помочь путешественникам найти не только знаменитые достопримечательности, но и скрытые жемчужины, которые можно найти только благодаря местным советам и рекомендациям. Мы постоянно обновляем нашу базу данных, чтобы вы могли узнать о новых и захватывающих местах, которые стоит посетить.</p>
+    <div>Для получения доступа к контенту необходимо пройти простую регистрацию - <a type="button" class="tn btn-dark btn-lg pull-right" href="{% url 'register' %}">Регистрация</a></div>
+
+    </div>
+    {% endif %}
 </ul>
 
 {% endblock %}
