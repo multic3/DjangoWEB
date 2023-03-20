@@ -6,6 +6,12 @@
 	border-top: #0d84da
 }
 
+.mright
+{
+	margin-left: auto;
+	margin-right: 0;
+}
+
 
 .fullread
 {

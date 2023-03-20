@@ -6,11 +6,12 @@ from .views import *
 
 
 urlpatterns = [
-    path('', cache_page(60)(HistoryHome.as_view()), name='home'),
-    path('about/', cache_page(60)(HistoryAbout.as_view()), name='about'),
+    path('', cache_page(1)(HistoryHome.as_view()), name='home'),
+    path('about/', cache_page(1)(HistoryAbout.as_view()), name='about'),
     path('post/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('contact/', ContactFormView.as_view(), name='contact'),
     path('register/', RegisterUser.as_view(), name='register'),
+    path('search/', Search.as_view(), name='search'),
 ]

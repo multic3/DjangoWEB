@@ -22,22 +22,24 @@
       </button>
 
 
-      <div class="btn-group" role="group" aria-label="Basic example">
-      <a type="button" class="btn btn-secondary" href="{% url 'home' %}">Главная</a>
+      <div class="btn-group" role="group" aria-label="left">
+      <a type="button" class="btn btn-secondary"  href="{% url 'home' %}">Главная</a>
       <a type="button" class="btn btn-secondary" href="{% url 'about' %}">О нас</a>
       <a type="button" class="btn btn-secondary" href="{% url 'contact' %}">Обратная связь</a>
-</div>
 
-	  <form class="d-flex">
-        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+
+	  <form class="d-flex" action="{% url 'search' %}" method="get">
+        <input class="form-control mr-2" type="search" type="text" placeholder="Поиск по сайту" aria-label="Search" name="q">
         <button class="btn btn-outline-success" type="submit">Поиск</button>
       </form>
-
+    </div>
 
 
       {% if request.user.is_authenticated %}
-      <li class="btn btn-secondary" style="margin-left:5px; margin-right:5px ">{{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
+      <li class="btn btn-secondary" style="margin-left:5px; margin-right:5px ">Добро пожаловать, {{user.username}}! | <a href="{% url 'logout' %}">Выйти</a></li>
       {% else %}
+
+       <div class="btn-group" role="group" aria-label="Basic example">
       <form action="{% url 'register' %}" >
         <input class="btn btn-primary btn-lg pull-right" type="submit" value="Регистрация">
       </form>
@@ -45,6 +47,7 @@
       <form action="{% url 'login' %}" >
         <input class="tn btn-dark btn-lg pull-right" type="submit" value="Войти">
       </form>
+       </div>
       {% endif %}
 
 

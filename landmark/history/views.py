@@ -101,5 +101,19 @@ class ContactFormView(FormView):
         return redirect('home')
 
 
+class Search(ListView):
+    template_name = 'history/search_results.html'
+    context_object_name = 'history'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Movie.objects.filter(title__iregex=self.request.GET.get('q'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context
+
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f"<h1>Страница не найдена</h1><p> Ошибка</p>")
