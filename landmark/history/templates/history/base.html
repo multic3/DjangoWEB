@@ -11,49 +11,43 @@
   <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 </head>
 
-
-<body style="background-color:#e0eee6">
+<body style="background-color:#e6e6e6">
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: 2px solid #0d84da">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'history/images/logo.png' %}" style="height:120px"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <div class="container-fluid" style="background-color: #566371">
+      <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'history/images/logo.png' %}" style="height:100px" ></a>
 
-
-      <div class="btn-group" role="group" aria-label="Basic example">
-      <a type="button" class="btn btn-secondary" href="{% url 'home' %}">Главная</a>
+      <div class="btn-group" role="group" aria-label="left">
+      <a type="button" class="btn btn-secondary"  href="{% url 'home' %}">Главная</a>
       <a type="button" class="btn btn-secondary" href="{% url 'about' %}">О нас</a>
       <a type="button" class="btn btn-secondary" href="{% url 'contact' %}">Обратная связь</a>
-</div>
 
-	  <form class="d-flex">
-        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Поиск</button>
+
+	  <form class="d-flex" action="{% url 'search' %}" method="get">
+        <input class="form-control mr-2" type="search" type="text" placeholder="Поиск по сайту" aria-label="Search" name="q">
+        <button class="btn btn-secondary" type="submit">Поиск</button>
       </form>
-
+    </div>
 
 
       {% if request.user.is_authenticated %}
-      <li class="btn btn-secondary" style="margin-left:5px; margin-right:5px ">{{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
+      <li class="btn btn-secondary" style="margin-left:5px; margin-right:5px ">Добро пожаловать, {{user.username}}! | <a href="{% url 'logout' %}">Выйти</a></li>
       {% else %}
-      <form action="{% url 'register' %}" >
-        <input class="btn btn-primary btn-lg pull-right" type="submit" value="Регистрация">
-      </form>
 
-      <form action="{% url 'login' %}" >
-        <input class="tn btn-dark btn-lg pull-right" type="submit" value="Войти">
-      </form>
+      <div class="btn-group" role="group" aria-label="left">
+      <a type="button" class="btn btn-primary btn-lg pull-right"  href="{% url 'register' %}">Регистрация</a>
+      <a type="button" class="tn btn-dark btn-lg pull-right" href="{% url 'login' %}">Войти</a>
+    </div>
       {% endif %}
 
 
 </nav>
-</nav>
+
 
   {% block content %}
   {% endblock %}
 
+{% if request.user.is_authenticated %}
 {% if page_obj.has_other_pages %}
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
@@ -78,6 +72,7 @@
     {% endif %}
   </ul>
 </nav>
+{% endif %}
 {% endif %}
 
 

@@ -1,0 +1,37 @@
+{% extends 'history/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1> Результаты поиска:</h1>
+
+{% if object_list %}
+<ul>
+    {% for post in object_list %}
+        <div style="background-color:#f1f5f9; border: thick double #32a1ce"><div class="article-panel">
+        <p>Дата создания: {{post.created_at|date:"d-m-Y H:i:s"}}</p></div>
+
+        <h2>{{post.title}}</h2>
+
+        {% if post.image %}
+            <p><img class='img-article-left' style="max-width:300px; height: auto" src="{{ post.image.url}}" alt="{{post.title}}">
+            {{post.description|linebreaks|truncatewords:100}}</p>
+        {% else %}
+            <p>{{post.description|linebreaks|truncatewords:100}}</p>
+        {% endif %}
+
+        <div class="fullread">
+        <a class="btn btn-secondary" role="button" href="{{ post.get_absolute_url }}">Читать полностью</a>
+        </div>
+        </div>
+        <br>
+
+    {% endfor %}
+</ul>
+{% else %}
+<div class="container">
+    <p><img class='img-article-left' style="height:200px; " src="{% static 'history/images/not_found.png' %}">
+            К сожалению, по Вашему запросу ничего не найдено.</p>
+</div>
+{% endif %}
+
+{% endblock %}
